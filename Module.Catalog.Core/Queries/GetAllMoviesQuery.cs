@@ -21,7 +21,11 @@ namespace Module.Catalog.Core.Queries
 
         public async Task<IEnumerable<Movie>> Handle(GetAllMoviesQuery request, CancellationToken cancellationToken)
         {
-            var movies = await _context.Movies.OrderByDescending(m => m.Year).ToListAsync();
+            var movies = await _context.Movies
+                .OrderByDescending(m => m.Year)
+                .Include(m => m.Genres)
+                .Include(m => m.Actors)
+                .ToListAsync();
 
             if (movies == null) throw new Exception("Movies Not Found!");
 
