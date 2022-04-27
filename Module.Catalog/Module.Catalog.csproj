@@ -1,0 +1,10 @@
+﻿<!--This project will contain the API controllers only, which will be picked up by the API Project.-->
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

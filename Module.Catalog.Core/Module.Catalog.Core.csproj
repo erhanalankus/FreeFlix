@@ -1,0 +1,10 @@
+﻿<!--This project will contain the entity models, interfaces specific to the module, MediatR handlers and so on.-->
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>
