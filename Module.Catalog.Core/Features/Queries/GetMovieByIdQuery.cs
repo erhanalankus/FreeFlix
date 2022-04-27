@@ -22,11 +22,9 @@ namespace Module.Catalog.Core.Features.Queries
         public async Task<Movie> Handle(GetMovieByIdQuery command, CancellationToken cancellationToken)
         {
             var movie = await _context.Movies
-                .Include(m => m.Genres)
-                .Include(m => m.Actors)
                 .FirstOrDefaultAsync(m => m.Id == command.Id);
 
-            if (movie == null) throw new Exception("Movie Not Found!");
+            if (movie == null) throw new Exception("Movie not found!");
 
             return movie;
         }
