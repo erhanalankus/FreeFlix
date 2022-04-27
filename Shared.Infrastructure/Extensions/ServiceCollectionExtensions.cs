@@ -40,7 +40,6 @@ namespace Shared.Infrastructure.Extensions
             return services;
         }
 
-        // TODO See the previous solution if this does not work
         private static IServiceCollection ApplyMigrationsIfThereArePendingMigrations<T>(this IServiceCollection services) where T : DbContext
         {
             using var scope = services.BuildServiceProvider().CreateScope();

@@ -25,11 +25,6 @@ namespace Shared.Infrastructure.Persistence
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-
-            //// TODO Try this if the above line to apply all configurations fail:
-            //new ActorEntityTypeConfiguration().Configure(modelBuilder.Entity<Actor>());
-            //new GenreEntityTypeConfiguration().Configure(modelBuilder.Entity<Genre>());
-            //new MovieEntityTypeConfiguration().Configure(modelBuilder.Entity<Movie>());
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
