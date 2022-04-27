@@ -1,4 +1,6 @@
-﻿namespace Module.Catalog.Core.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace Module.Catalog.Core.Entities
 {
     public class Actor
     {
@@ -8,6 +10,7 @@
         public string LastName { get; set; }
         public string FullName { get; set; }
 
+        [JsonIgnore]
         public ICollection<Movie> Movies { get; set; }
     }
 }
