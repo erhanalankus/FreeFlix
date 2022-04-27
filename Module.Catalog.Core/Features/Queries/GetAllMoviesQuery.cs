@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Module.Catalog.Core.Abstractions;
 using Module.Catalog.Core.Entities;
 
-namespace Module.Catalog.Core.Queries
+namespace Module.Catalog.Core.Features.Queries
 {
     public class GetAllMoviesQuery : IRequest<IEnumerable<Movie>>
     {

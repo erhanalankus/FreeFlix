@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Module.Catalog.Core.Queries;
+using Module.Catalog.Core.Features.Queries;
 
 namespace Module.Catalog.Controllers
 {
