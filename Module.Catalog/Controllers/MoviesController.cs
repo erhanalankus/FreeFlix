@@ -22,5 +22,13 @@ namespace Module.Catalog.Controllers
 
             return Ok(movies);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var movie = await _mediator.Send(new GetMovieByIdQuery { Id = id });
+
+            return Ok(movie);
+        }
     }
 }
