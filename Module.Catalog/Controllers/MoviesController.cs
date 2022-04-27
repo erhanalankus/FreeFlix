@@ -40,5 +40,11 @@ namespace Module.Catalog.Controllers
         {
             return Ok(await Mediator.Send(new DeleteMovieByIdCommand { Id = id }));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateMovieCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
     }
 }

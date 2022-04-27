@@ -7,7 +7,6 @@ public class Movie
     public string Year { get; set; }
     public string Synopsis { get; set; }
     public string Director { get; set; }
-
-    public ICollection<Actor> Actors { get; set; }
-    public ICollection<Genre> Genres { get; set; }
+    public ICollection<string> Actors { get; set; }
+    public ICollection<string> Genres { get; set; }
 }
