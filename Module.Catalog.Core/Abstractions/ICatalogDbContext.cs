@@ -12,6 +12,6 @@ namespace Module.Catalog.Core.Abstractions
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Actor> Actors { get; set; }
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
