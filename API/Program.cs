@@ -1,3 +1,4 @@
+using Module.Catalog.Extensions;
 using Shared.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddSharedInfrastructure(builder.Configuration);
+
+builder.Services.AddCatalogModule(builder.Configuration);
 
 //builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
