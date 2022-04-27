@@ -55,7 +55,7 @@ namespace Module.Catalog.Infrastructure.Persistence.Configuration
                     Director = "Quentin Tarantino",
                     Synopsis = "In Nazi-occupied France during World War II, a plan to assassinate Nazi leaders by a group of Jewish U.S. soldiers coincides with a theatre owner's vengeful plans for the same.",
                     Year = "2009",
-                    Actors =
+                    Actors = new List<string>
                     {
                         "Brad Pitt",
                         "Diane Kruger",
