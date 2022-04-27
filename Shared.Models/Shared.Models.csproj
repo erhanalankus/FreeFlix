@@ -1,0 +1,10 @@
+﻿<!--This project is where you will add in the request/response classes. Note that this project can be used for any C# Client applications as well.-->
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>
