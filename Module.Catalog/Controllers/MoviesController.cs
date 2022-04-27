@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Module.Catalog.Core.Queries;
 
 namespace Module.Catalog.Controllers
 {
@@ -6,10 +8,19 @@ namespace Module.Catalog.Controllers
     [Route("/api/catalog/[controller]")]
     internal class MoviesController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public MoviesController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            return Ok();
+            var movies = await _mediator.Send(new GetAllMoviesQuery());
+
+            return Ok(movies);
         }
     }
 }
