@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Module.Catalog.Core.Entities;
+using System.Text.Json;
 
 namespace Module.Catalog.Infrastructure.Persistence.Configuration
 {
@@ -12,6 +14,20 @@ namespace Module.Catalog.Infrastructure.Persistence.Configuration
             builder.Property(m => m.Year).IsRequired();
             builder.Property(m => m.Synopsis).IsRequired();
             builder.Property(m => m.Director).IsRequired();
+            builder.Property(m => m.Actors).HasConversion(
+                v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
+                v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions)null),
+                new ValueComparer<List<string>>(
+                    (c1, c2) => c1.SequenceEqual(c2),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => (List<string>)c.ToList()));
+            builder.Property(m => m.Genres).HasConversion(
+                v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
+                v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions)null),
+                new ValueComparer<List<string>>(
+                    (c1, c2) => c1.SequenceEqual(c2),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => (List<string>)c.ToList()));
 
             builder.HasData(
                 new Movie
