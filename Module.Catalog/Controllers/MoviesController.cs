@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Module.Catalog.Core.Features.Commands;
 using Module.Catalog.Core.Features.Queries;
 
 namespace Module.Catalog.Controllers
@@ -8,17 +10,19 @@ namespace Module.Catalog.Controllers
     [Route("/api/catalog/[controller]")]
     internal class MoviesController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private IMediator _mediator;
 
-        public MoviesController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+
+        //public MoviesController(IMediator mediator)
+        //{
+        //    _mediator = mediator;
+        //}
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var movies = await _mediator.Send(new GetAllMoviesQuery());
+            var movies = await Mediator.Send(new GetAllMoviesQuery());
 
             return Ok(movies);
         }
@@ -26,9 +30,15 @@ namespace Module.Catalog.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var movie = await _mediator.Send(new GetMovieByIdQuery { Id = id });
+            var movie = await Mediator.Send(new GetMovieByIdQuery { Id = id });
 
             return Ok(movie);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return Ok(await Mediator.Send(new DeleteMovieByIdCommand { Id = id }));
         }
     }
 }
