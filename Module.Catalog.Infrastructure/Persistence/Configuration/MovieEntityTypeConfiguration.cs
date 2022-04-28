@@ -15,7 +15,7 @@ namespace Module.Catalog.Infrastructure.Persistence.Configuration
             builder.Property(m => m.Synopsis).IsRequired();
             builder.Property(m => m.Director).IsRequired();
 
-            //ICollection<string> represents a mutable reference type. This means that a ValueComparer<T> is needed so that EF Core can track and detect changes correctly.
+            // ICollection<string> represents a mutable reference type. This means that a ValueComparer<T> is needed so that EF Core can track and detect changes correctly.
             builder.Property(m => m.Actors).HasConversion(
                 v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
                 v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions)null),
@@ -30,6 +30,8 @@ namespace Module.Catalog.Infrastructure.Persistence.Configuration
                     (c1, c2) => c1.SequenceEqual(c2),
                     c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                     c => (ICollection<string>)c.ToList()));
+
+            builder.Property(m => m.Timestamp).IsRowVersion();
 
             builder.HasData(
                 new Movie

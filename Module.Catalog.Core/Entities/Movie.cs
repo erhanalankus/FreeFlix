@@ -9,4 +9,7 @@ public class Movie
     public string Director { get; set; }
     public ICollection<string> Actors { get; set; }
     public ICollection<string> Genres { get; set; }
+
+    // This property is the concurrency token.
+    public byte[] Timestamp { get; set; }
 }
