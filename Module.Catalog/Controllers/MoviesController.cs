@@ -33,9 +33,15 @@ namespace Module.Catalog.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllAsync()
         {
             var movies = await _mediator.Send(new GetAllMoviesQuery());
+
+            if (movies.Count() == 0)
+            {
+                return NotFound();
+            }
 
             return Ok(movies);
         }

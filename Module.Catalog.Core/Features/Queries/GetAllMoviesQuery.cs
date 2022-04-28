@@ -21,11 +21,7 @@ namespace Module.Catalog.Core.Features.Queries
 
         public async Task<IEnumerable<Movie>> Handle(GetAllMoviesQuery request, CancellationToken cancellationToken)
         {
-            var movies = await _context.Movies.ToListAsync();
-
-            if (movies == null) throw new Exception("Movies not found!");
-
-            return movies;
+            return await _context.Movies.ToListAsync();
         }
     }
 }
