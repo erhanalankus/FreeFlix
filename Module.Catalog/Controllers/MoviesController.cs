@@ -81,6 +81,7 @@ namespace Module.Catalog.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> Create(CreateMovieCommand command)
         {
             var createdMovie = await _mediator.Send(command);
