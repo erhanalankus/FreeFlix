@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Module.Catalog.Core.Entities;
 using Module.Catalog.Core.Features.Commands;
 using Module.Catalog.Core.Features.Queries;
 using System.Net.Mime;
@@ -30,7 +31,7 @@ namespace Module.Catalog.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Movie>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> GetAllAsync()
@@ -46,7 +47,7 @@ namespace Module.Catalog.Controllers
         }
 
         [HttpGet("{id}", Name = "GetById")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Movie))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
