@@ -59,7 +59,7 @@ namespace Module.Catalog.Core.Features.Queries
             {
                 foreach (var actor in command.Actors)
                 {
-                    movies = movies.Where(m => m.Actors.Contains(actor));
+                    movies = movies.Where(m => m.Actors.Any(a => a.Contains(actor)));
                 }
             }
 
