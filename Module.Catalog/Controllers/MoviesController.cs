@@ -46,5 +46,16 @@ namespace Module.Catalog.Controllers
         {
             return Ok(await Mediator.Send(command));
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, UpdateMovieCommand command)
+        {
+            if (id != command.Id)
+            {
+                return BadRequest();
+            }
+
+            return Ok(await Mediator.Send(command));
+        }
     }
 }
