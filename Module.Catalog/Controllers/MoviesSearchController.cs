@@ -26,7 +26,7 @@ public class MoviesSearchController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> SearchExtended(SearchMoviesExtendedQuery query)
     {
-        var movies = _mediator.Send(query);
+        var movies = await _mediator.Send(query);
 
         return Ok(movies);
     }

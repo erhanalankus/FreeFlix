@@ -31,6 +31,7 @@ namespace Module.Catalog.Core.Features.Queries
         public async Task<IEnumerable<Movie>> Handle(SearchMoviesExtendedQuery command, CancellationToken cancellationToken)
         {
             var movies = _context.Movies.AsQueryable();
+            var moviesList = new List<Movie>();
 
             if (!string.IsNullOrWhiteSpace(command.Title))
             {
@@ -47,20 +48,28 @@ namespace Module.Catalog.Core.Features.Queries
                 movies = movies.Where(m => m.Director == command.Director);
             }
 
-            if (command.Genres.Any())
+            // HACK: Figure out how to translate this filter to database, also make genre and actor filters case-insensitive
+            if (command.Genres.Any() || command.Actors.Any())
             {
-                foreach (var genre in command.Genres)
-                {
-                    movies = movies.Where(m => m.Genres.Contains(genre));
-                }
-            }
+                moviesList = await movies.ToListAsync();
 
-            if (command.Actors.Any())
-            {
-                foreach (var actor in command.Actors)
+                if (command.Genres.Any())
                 {
-                    movies = movies.Where(m => m.Actors.Any(a => a.Contains(actor)));
+                    foreach (var genre in command.Genres)
+                    {
+                        moviesList = moviesList.Where(m => m.Genres.Contains(genre)).ToList();
+                    }
                 }
+
+                if (command.Actors.Any())
+                {
+                    foreach (var actor in command.Actors)
+                    {
+                        moviesList = moviesList.Where(m => m.Actors.Contains(actor)).ToList();
+                    }
+                }
+
+                return moviesList;
             }
 
             return await movies.ToListAsync();
