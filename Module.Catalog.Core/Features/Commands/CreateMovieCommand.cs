@@ -4,7 +4,7 @@ using Module.Catalog.Core.Entities;
 
 namespace Module.Catalog.Core.Features.Commands;
 
-public class CreateMovieCommand : IRequest<int>
+public class CreateMovieCommand : IRequest<Movie>
 {
     public string Title { get; set; }
     public string Year { get; set; }
@@ -14,7 +14,7 @@ public class CreateMovieCommand : IRequest<int>
     public string[] Genres { get; set; }
 }
 
-internal class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, int>
+internal class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Movie>
 {
     private readonly ICatalogDbContext _context;
 
@@ -23,7 +23,7 @@ internal class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, i
         _context = context;
     }
 
-    public async Task<int> Handle(CreateMovieCommand command, CancellationToken cancellationToken)
+    public async Task<Movie> Handle(CreateMovieCommand command, CancellationToken cancellationToken)
     {
         var movieToAdd = new Movie
         {
@@ -37,6 +37,6 @@ internal class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, i
         _context.Movies.Add(movieToAdd);
         await _context.SaveChangesAsync();
 
-        return movieToAdd.Id;
+        return movieToAdd;
     }
 }

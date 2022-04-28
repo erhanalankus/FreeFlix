@@ -27,7 +27,7 @@ namespace Module.Catalog.Controllers
             return Ok(movies);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetById")]
         public async Task<IActionResult> GetById(int id)
         {
             var movie = await Mediator.Send(new GetMovieByIdQuery { Id = id });
@@ -44,7 +44,9 @@ namespace Module.Catalog.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateMovieCommand command)
         {
-            return Ok(await Mediator.Send(command));
+            var createdMovie = await Mediator.Send(command);
+
+            return CreatedAtAction(nameof(MoviesController.GetById), new { id = createdMovie.Id }, createdMovie);
         }
 
         [HttpPut("{id}")]
