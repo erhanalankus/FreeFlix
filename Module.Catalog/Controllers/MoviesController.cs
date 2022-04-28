@@ -32,6 +32,7 @@ namespace Module.Catalog.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> GetAllAsync()
         {
             var movies = await _mediator.Send(new GetAllMoviesQuery());
@@ -65,6 +66,7 @@ namespace Module.Catalog.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _mediator.Send(new DeleteMovieByIdCommand { Id = id });
@@ -93,6 +95,7 @@ namespace Module.Catalog.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> Update(int id, UpdateMovieCommand command)
         {
             if (id != command.Id)
@@ -100,7 +103,14 @@ namespace Module.Catalog.Controllers
                 return BadRequest();
             }
 
-            return Ok(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+
+            if (result == default)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
     }
 }
