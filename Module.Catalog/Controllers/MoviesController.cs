@@ -23,7 +23,7 @@ namespace Module.Catalog.Controllers
     [Route("/api/catalog/[controller]")]
     internal class MoviesController : ControllerBase
     {
-        private IMediator _mediator;
+        private readonly IMediator _mediator;
 
         public MoviesController(IMediator mediator)
         {

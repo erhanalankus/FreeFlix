@@ -8,7 +8,7 @@ namespace Module.Catalog.Controllers;
 [Route("/api/catalog/[controller]")]
 public class MoviesSearchController : ControllerBase
 {
-    private IMediator _mediator;
+    private readonly IMediator _mediator;
 
     public MoviesSearchController(IMediator mediator)
     {
