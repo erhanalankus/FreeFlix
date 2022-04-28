@@ -49,10 +49,16 @@ namespace Module.Catalog.Controllers
         [HttpGet("{id}", Name = "GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> GetById(int id)
         {
             var movie = await _mediator.Send(new GetMovieByIdQuery { Id = id });
+
+            if (movie is null)
+            {
+                return NotFound();
+            }
 
             return Ok(movie);
         }
