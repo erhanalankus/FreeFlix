@@ -1,10 +1,6 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Module.Catalog.Core.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.Catalog.Core.Features.Commands;
 
@@ -44,7 +40,41 @@ internal class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, i
             movie.Director = command.Director;
             movie.Actors = command.Actors;
             movie.Genres = command.Genres;
-            await _context.SaveChangesAsync();
+
+            var saved = false;
+
+            // This boolean decides on which values win in a concurrency conflict.
+            var databaseValuesWin = false;
+
+            while (!saved)
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException exception)
+                {
+                    foreach (var movieEntry in exception.Entries)
+                    {
+                        var proposedValues = movieEntry.CurrentValues;
+                        var databaseValues = movieEntry.GetDatabaseValues();
+
+                        foreach (var property in proposedValues.Properties)
+                        {
+                            var proposedValue = proposedValues[property];
+                            var databaseValue = databaseValues[property];
+
+                            proposedValues[property] = databaseValuesWin ? databaseValue : proposedValue;
+                        }
+
+                        // Refresh original values to bypass next concurrency check
+                        movieEntry.OriginalValues.SetValues(databaseValues);
+
+                        // TODO Inform the user about what happened.
+                    }
+                }
+            }
 
             return movie.Id;
         }
