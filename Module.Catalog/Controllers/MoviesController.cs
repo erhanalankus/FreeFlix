@@ -29,8 +29,6 @@ namespace Module.Catalog.Controllers
             _mediator = mediator;
         }
 
-        //TODO Maybe inform client if there's nothing to get
-
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,9 +64,17 @@ namespace Module.Catalog.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await _mediator.Send(new DeleteMovieByIdCommand { Id = id }));
+            var result = await _mediator.Send(new DeleteMovieByIdCommand { Id = id });
+
+            if (result == default)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
