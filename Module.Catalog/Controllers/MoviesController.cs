@@ -37,7 +37,7 @@ namespace Module.Catalog.Controllers
         {
             var movies = await _mediator.Send(new GetAllMoviesQuery());
 
-            if (movies.Count() == 0)
+            if (movies.Any())
             {
                 return NotFound();
             }
