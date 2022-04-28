@@ -16,9 +16,17 @@ public class MoviesSearchController : ControllerBase
     }
 
     [HttpGet("{searchString}")]
-    public async Task<IActionResult> GetById(string searchString)
+    public async Task<IActionResult> Search(string searchString)
     {
         var movies = await _mediator.Send(new SearchMoviesByTitleQuery { SearchQuery = searchString });
+
+        return Ok(movies);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SearchExtended(SearchMoviesExtendedQuery query)
+    {
+        var movies = _mediator.Send(query);
 
         return Ok(movies);
     }
