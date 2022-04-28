@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using Module.Catalog.Core.Abstractions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Module.Catalog.Core.Features.Commands
 {
     public class DeleteMovieByIdCommand : IRequest<int>
     {
+        [Required]
         public int Id { get; set; }
     }
 

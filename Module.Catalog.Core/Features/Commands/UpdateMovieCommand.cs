@@ -1,17 +1,25 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Catalog.Core.Abstractions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Module.Catalog.Core.Features.Commands;
 
 public class UpdateMovieCommand : IRequest<int>
 {
+    [Required]
     public int Id { get; set; }
+    [Required]
     public string Title { get; set; }
+    [Required]
     public string Year { get; set; }
+    [Required]
     public string Synopsis { get; set; }
+    [Required]
     public string Director { get; set; }
+    [Required]
     public ICollection<string> Actors { get; set; }
+    [Required]
     public ICollection<string> Genres { get; set; }
 }
 

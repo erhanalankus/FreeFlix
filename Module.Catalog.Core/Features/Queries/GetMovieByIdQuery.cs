@@ -2,11 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Module.Catalog.Core.Abstractions;
 using Module.Catalog.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Module.Catalog.Core.Features.Queries
 {
     public class GetMovieByIdQuery : IRequest<Movie>
     {
+        [Required]
         public int Id { get; set; }
     }
 
