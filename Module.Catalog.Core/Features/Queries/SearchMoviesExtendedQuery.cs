@@ -48,29 +48,34 @@ namespace Module.Catalog.Core.Features.Queries
                 movies = movies.Where(m => m.Director == command.Director);
             }
 
-            // HACK: Figure out how to translate this filter to database, also make genre and actor filters case-insensitive
-            if (command.Genres.Any() || command.Actors.Any())
-            {
-                moviesList = await movies.ToListAsync();
+            var genre = "Drama";
+            //movies = movies.Where(m => m.Genres.Contains(genre));
+            movies = movies.Where(m => m.Genres.Any(g => g == genre));
 
-                if (command.Genres.Any())
-                {
-                    foreach (var genre in command.Genres)
-                    {
-                        moviesList = moviesList.Where(m => m.Genres.Contains(genre)).ToList();
-                    }
-                }
 
-                if (command.Actors.Any())
-                {
-                    foreach (var actor in command.Actors)
-                    {
-                        moviesList = moviesList.Where(m => m.Actors.Contains(actor)).ToList();
-                    }
-                }
+            //// HACK: Figure out how to translate this filter to database, also make genre and actor filters case-insensitive
+            //if (command.Genres.Any() || command.Actors.Any())
+            //{
+            //    moviesList = await movies.ToListAsync();
 
-                return moviesList;
-            }
+            //    if (command.Genres.Any())
+            //    {
+            //        foreach (var genre in command.Genres)
+            //        {
+            //            moviesList = moviesList.Where(m => m.Genres.Contains(genre)).ToList();
+            //        }
+            //    }
+
+            //    if (command.Actors.Any())
+            //    {
+            //        foreach (var actor in command.Actors)
+            //        {
+            //            moviesList = moviesList.Where(m => m.Actors.Contains(actor)).ToList();
+            //        }
+            //    }
+
+            //    return moviesList;
+            //}
 
             return await movies.ToListAsync();
         }
