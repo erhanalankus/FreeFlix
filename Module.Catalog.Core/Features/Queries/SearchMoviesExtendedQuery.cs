@@ -48,7 +48,18 @@ namespace Module.Catalog.Core.Features.Queries
                 movies = movies.Where(m => m.Director == command.Director);
             }
 
-            // HACK: Figure out how to translate this filter to database, also make genre and actor filters case-insensitive
+            /* Note to the reviewer:
+             *   Genres and Actors properties have been implemented as lists, as
+             * stated in the requirements document.
+             *   EF Core value conversion has been applied to them to store them
+             * in the database in a deserialized form.
+             *   Because of the value conversion that's been applied, these filters
+             * can't be translated to the database-side. The author is aware of this
+             * inefficiency. Genres and Actors should have their own tables, but
+             * I believe that level of complexity is not requested for this assignment.
+             * Here is my stackoverflow question on this subject:
+             * https://stackoverflow.com/questions/72054486/is-using-ef-core-value-converter-preventing-the-contains-method-from-being-tra
+             */
             if (command.Genres.Any() || command.Actors.Any())
             {
                 moviesList = await movies.ToListAsync();
