@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Module.Catalog.Core.Entities;
 using Module.Catalog.Core.Features.Queries;
 using Moq;
-using Shouldly;
 using System.Threading;
 using Xunit;
 
@@ -25,7 +24,7 @@ namespace Module.Catalog.UnitTests.MoviesController
             var result = await moviesController.GetById(1);
 
             // Assert
-            result.ShouldBeOfType<NotFoundResult>();
+            Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
@@ -42,7 +41,7 @@ namespace Module.Catalog.UnitTests.MoviesController
             var result = await moviesController.GetById(1);
 
             // Assert
-            result.ShouldBeOfType<OkObjectResult>();
+            Assert.IsType<OkObjectResult>(result);
         }
     }
 }
