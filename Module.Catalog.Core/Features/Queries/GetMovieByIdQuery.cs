@@ -2,11 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Module.Catalog.Core.Abstractions;
 using Module.Catalog.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Module.Catalog.Core.Features.Queries
 {
     public class GetMovieByIdQuery : IRequest<Movie>
     {
+        [Required]
         public int Id { get; set; }
     }
 
@@ -21,12 +23,7 @@ namespace Module.Catalog.Core.Features.Queries
 
         public async Task<Movie> Handle(GetMovieByIdQuery command, CancellationToken cancellationToken)
         {
-            var movie = await _context.Movies
-                .FirstOrDefaultAsync(m => m.Id == command.Id);
-
-            if (movie == null) throw new Exception("Movie not found!");
-
-            return movie;
+            return await _context.Movies.FindAsync(command.Id);
         }
     }
 }
