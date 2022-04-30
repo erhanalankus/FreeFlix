@@ -10,11 +10,11 @@ namespace Module.Catalog.Core.Features.Queries
 
     }
 
-    internal class MovieQueryHandler : IRequestHandler<GetAllMoviesQuery, IEnumerable<Movie>>
+    internal class GetAllMoviesQueryHandler : IRequestHandler<GetAllMoviesQuery, IEnumerable<Movie>>
     {
         private readonly ICatalogDbContext _context;
 
-        public MovieQueryHandler(ICatalogDbContext context)
+        public GetAllMoviesQueryHandler(ICatalogDbContext context)
         {
             _context = context;
         }
