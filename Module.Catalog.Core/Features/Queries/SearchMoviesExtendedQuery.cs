@@ -76,7 +76,7 @@ namespace Module.Catalog.Core.Features.Queries
                 {
                     foreach (var genre in command.Genres)
                     {
-                        moviesList = moviesList.Where(m => m.Genres.Contains(genre)).ToList();
+                        moviesList = moviesList.Where(m => m.Genres.Any(g => g.ToLower().Contains(genre.ToLower()))).ToList();
                     }
                 }
 
@@ -84,7 +84,7 @@ namespace Module.Catalog.Core.Features.Queries
                 {
                     foreach (var actor in command.Actors)
                     {
-                        moviesList = moviesList.Where(m => m.Actors.Contains(actor)).ToList();
+                        moviesList = moviesList.Where(m => m.Actors.Any(a => a.ToLower().Contains(actor.ToLower()))).ToList();
                     }
                 }
 
