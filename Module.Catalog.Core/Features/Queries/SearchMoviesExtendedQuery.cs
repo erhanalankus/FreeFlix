@@ -114,7 +114,7 @@ internal class SearchMoviesExtendedQueryHanler : IRequestHandler<SearchMoviesExt
                         Actors = m.Actors,
                         Genres = m.Genres
                     });
-            result.PaginationMetadata = new PaginationMetadata(moviesList.Count(), command.Page, command.ItemsPerPage);
+            result.PaginationMetadata = new PaginationMetadata(moviesList.Count, command.Page, command.ItemsPerPage);
 
             return result;
         }
