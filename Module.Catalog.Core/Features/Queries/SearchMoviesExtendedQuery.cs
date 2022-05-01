@@ -3,26 +3,38 @@ using Microsoft.EntityFrameworkCore;
 using Module.Catalog.Core.Abstractions;
 using Module.Catalog.Core.Entities;
 using Module.Catalog.Core.Entities.DTO;
+using System.ComponentModel;
 
 namespace Module.Catalog.Core.Features.Queries
 {
     public class SearchMoviesExtendedQuery : IRequest<PaginatedMoviesDTO>
-    {
+    {        
         private const int _maxItemsPerPage = 5;
         private int itemsPerPage = 3;
 
+        [DefaultValue(1)]
         public int Page { get; set; } = 1;
 
+        [DefaultValue(3)]
         public int ItemsPerPage
         {
             get => itemsPerPage;
             set => itemsPerPage = value > _maxItemsPerPage ? _maxItemsPerPage : value;
         }
 
+        [DefaultValue("")]
         public string Title { get; set; }
+
+        [DefaultValue("")]
         public string Year { get; set; }
+
+        [DefaultValue("")]
         public string Director { get; set; }
+
+        [DefaultValue(new string[] {"drama"})]
         public ICollection<string> Genres { get; set; } = new List<string>();
+
+        [DefaultValue(new string[] { "" })]
         public ICollection<string> Actors { get; set; } = new List<string>();
     }
 
