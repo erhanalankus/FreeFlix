@@ -9,7 +9,7 @@ namespace Module.Catalog.Core.Features.Queries
     public class SearchMoviesExtendedQuery : IRequest<PaginatedMoviesDTO>
     {
         private const int _maxItemsPerPage = 5;
-        private int itemsPerPage;
+        private int itemsPerPage = 3;
 
         public int Page { get; set; } = 1;
 
