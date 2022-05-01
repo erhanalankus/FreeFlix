@@ -34,7 +34,7 @@ internal class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, i
 
     public async Task<int> Handle(UpdateMovieCommand command, CancellationToken cancellationToken)
     {
-        var movie = await _context.Movies.FindAsync(command.Id);
+        var movie = await _context.Movies.FindAsync(new object[] { command.Id }, cancellationToken: cancellationToken);
 
         if (movie is null)
         {
@@ -58,7 +58,7 @@ internal class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, i
             {
                 try
                 {
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(cancellationToken: cancellationToken);
                     saved = true;
                 }
                 catch (DbUpdateConcurrencyException exception)

@@ -22,7 +22,7 @@ internal class GetMovieByIdQueryHandler : IRequestHandler<GetMovieByIdQuery, Mov
 
     public async Task<MovieDTO> Handle(GetMovieByIdQuery command, CancellationToken cancellationToken)
     {
-        var movie = await _context.Movies.FindAsync(command.Id);
+        var movie = await _context.Movies.FindAsync(new object[] { command.Id }, cancellationToken: cancellationToken);
 
         if (movie is null)
         {

@@ -21,7 +21,7 @@ internal class DeleteMovieByIdCommandHandler : IRequestHandler<DeleteMovieByIdCo
 
     public async Task<int> Handle(DeleteMovieByIdCommand command, CancellationToken cancellationToken)
     {
-        var movie = await _context.Movies.FindAsync(command.Id);
+        var movie = await _context.Movies.FindAsync(new object[] { command.Id }, cancellationToken: cancellationToken);
 
         if (movie is null)
         {
@@ -29,7 +29,7 @@ internal class DeleteMovieByIdCommandHandler : IRequestHandler<DeleteMovieByIdCo
         }
 
         _context.Movies.Remove(movie);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
         return movie.Id;
     }

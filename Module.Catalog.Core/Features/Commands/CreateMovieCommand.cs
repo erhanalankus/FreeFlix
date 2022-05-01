@@ -43,7 +43,7 @@ internal class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, M
             Genres = command.Genres
         };
         _context.Movies.Add(movieToAdd);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
         return new MovieDTO
         {

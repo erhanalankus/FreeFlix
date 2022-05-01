@@ -30,6 +30,6 @@ internal class GetAllMoviesQueryHandler : IRequestHandler<GetAllMoviesQuery, IEn
             Director = m.Director,
             Actors = m.Actors,
             Genres = m.Genres
-        }).ToListAsync();
+        }).ToListAsync(cancellationToken: cancellationToken);
     }
 }

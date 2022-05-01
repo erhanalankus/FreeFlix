@@ -23,7 +23,7 @@ internal class SearchMoviesByTitleQueryHandler : IRequestHandler<SearchMoviesByT
 
     public async Task<IEnumerable<MovieDTO>> Handle(SearchMoviesByTitleQuery command, CancellationToken cancellationToken)
     {
-        var movies = await _context.Movies.Where(m => m.Title.Contains(command.MovieTitleToSearchFor)).ToListAsync();
+        var movies = await _context.Movies.Where(m => m.Title.Contains(command.MovieTitleToSearchFor)).ToListAsync(cancellationToken: cancellationToken);
 
         return movies.Select(m => new MovieDTO
         {

@@ -83,7 +83,7 @@ internal class SearchMoviesExtendedQueryHanler : IRequestHandler<SearchMoviesExt
         if (command.Genres.Any(g => g != null && g.Trim() != string.Empty) || 
             command.Actors.Any(a => a != null && a.Trim() != string.Empty))
         {
-            moviesList = await movies.ToListAsync();
+            moviesList = await movies.ToListAsync(cancellationToken: cancellationToken);
 
             if (command.Genres.Any())
             {
@@ -122,7 +122,7 @@ internal class SearchMoviesExtendedQueryHanler : IRequestHandler<SearchMoviesExt
         moviesList = await movies
             .Skip((command.Page - 1) * command.ItemsPerPage)
             .Take(command.ItemsPerPage)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
         result.PaginationMetadata = new PaginationMetadata(movies.Count(), command.Page, command.ItemsPerPage);
         result.Movies = moviesList.Select(m => new MovieDTO
         {
