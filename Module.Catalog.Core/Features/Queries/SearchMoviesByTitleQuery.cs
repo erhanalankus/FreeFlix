@@ -9,7 +9,7 @@ namespace Module.Catalog.Core.Features.Queries;
 public class SearchMoviesByTitleQuery : IRequest<IEnumerable<MovieDTO>>
 {
     [Required]
-    public string SearchQuery { get; set; }
+    public string MovieTitleToSearchFor { get; set; }
 }
 
 internal class SearchMoviesByTitleQueryHandler : IRequestHandler<SearchMoviesByTitleQuery, IEnumerable<MovieDTO>>
@@ -23,7 +23,7 @@ internal class SearchMoviesByTitleQueryHandler : IRequestHandler<SearchMoviesByT
 
     public async Task<IEnumerable<MovieDTO>> Handle(SearchMoviesByTitleQuery command, CancellationToken cancellationToken)
     {
-        var movies = await _context.Movies.Where(m => m.Title.Contains(command.SearchQuery)).ToListAsync();
+        var movies = await _context.Movies.Where(m => m.Title.Contains(command.MovieTitleToSearchFor)).ToListAsync();
 
         return movies.Select(m => new MovieDTO
         {

@@ -16,10 +16,10 @@ public class MoviesSearchController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("{searchString}")]
-    public async Task<IActionResult> Search(string searchString)
+    [HttpGet("{movieTitleToSearchFor}")]
+    public async Task<IActionResult> SearchByTitle(string movieTitleToSearchFor)
     {
-        var movies = await _mediator.Send(new SearchMoviesByTitleQuery { SearchQuery = searchString });
+        var movies = await _mediator.Send(new SearchMoviesByTitleQuery { MovieTitleToSearchFor = movieTitleToSearchFor });
 
         return Ok(movies);
     }
@@ -28,7 +28,11 @@ public class MoviesSearchController : ControllerBase
     public async Task<IActionResult> SearchExtended(SearchMoviesExtendedQuery query)
     {
         var movies = await _mediator.Send(query);
-        Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(movies.PaginationMetadata));
+
+        if (Response is not null)
+        {
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(movies.PaginationMetadata));
+        }
 
         return Ok(movies.Movies);
     }

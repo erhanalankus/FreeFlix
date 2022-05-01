@@ -22,7 +22,7 @@ public class SearchActionShould
         var moviesSearchController = new Controllers.MoviesSearchController(mockMediator.Object);
 
         // Act
-        var result = await moviesSearchController.Search("string");
+        var result = await moviesSearchController.SearchByTitle("string");
 
         // Assert
         Assert.IsType<OkObjectResult>(result);
