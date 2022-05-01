@@ -10,6 +10,9 @@
 
 
 This is a solution that is built to contain multiple modules where-in each of the modules implements a variation of Clean / Onion Architecture.
+
+The requested features have been implemented in the `Catalog` module. It uses the CQRS pattern with MediatR handlers for CRUD operations.
+
 It mimics Microservices yet keeps the simplicity and goodness of Monoliths.
 
 Addition of new modules will not change the existing code of other modules. It fits the Open/Closed Principle
