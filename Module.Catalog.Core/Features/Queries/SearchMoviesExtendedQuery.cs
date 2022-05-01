@@ -80,7 +80,8 @@ namespace Module.Catalog.Core.Features.Queries
              * Here is my stackoverflow question on this subject:
              * https://stackoverflow.com/questions/72054486/is-using-ef-core-value-converter-preventing-the-contains-method-from-being-tra
              */
-            if (command.Genres.Any() || command.Actors.Any())
+            if (command.Genres.Any(g => g != null && g.Trim() != string.Empty) || 
+                command.Actors.Any(a => a != null && a.Trim() != string.Empty))
             {
                 moviesList = await movies.ToListAsync();
 
@@ -113,7 +114,7 @@ namespace Module.Catalog.Core.Features.Queries
                             Actors = m.Actors,
                             Genres = m.Genres
                         });
-                result.PaginationMetadata = new PaginationMetadata(movies.Count(), command.Page, command.ItemsPerPage);
+                result.PaginationMetadata = new PaginationMetadata(moviesList.Count(), command.Page, command.ItemsPerPage);
 
                 return result;
             }
