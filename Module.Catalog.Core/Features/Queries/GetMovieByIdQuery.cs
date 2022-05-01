@@ -3,44 +3,43 @@ using Module.Catalog.Core.Abstractions;
 using Module.Catalog.Core.Entities.DTO;
 using System.ComponentModel.DataAnnotations;
 
-namespace Module.Catalog.Core.Features.Queries
+namespace Module.Catalog.Core.Features.Queries;
+
+public class GetMovieByIdQuery : IRequest<MovieDTO>
 {
-    public class GetMovieByIdQuery : IRequest<MovieDTO>
+    [Required]
+    public int Id { get; set; }
+}
+
+internal class GetMovieByIdQueryHandler : IRequestHandler<GetMovieByIdQuery, MovieDTO>
+{
+    private readonly ICatalogDbContext _context;
+
+    public GetMovieByIdQueryHandler(ICatalogDbContext context)
     {
-        [Required]
-        public int Id { get; set; }
+        _context = context;
     }
 
-    internal class GetMovieByIdQueryHandler : IRequestHandler<GetMovieByIdQuery, MovieDTO>
+    public async Task<MovieDTO> Handle(GetMovieByIdQuery command, CancellationToken cancellationToken)
     {
-        private readonly ICatalogDbContext _context;
+        var movie = await _context.Movies.FindAsync(command.Id);
 
-        public GetMovieByIdQueryHandler(ICatalogDbContext context)
+        if (movie is null)
         {
-            _context = context;
+            return null;
         }
-
-        public async Task<MovieDTO> Handle(GetMovieByIdQuery command, CancellationToken cancellationToken)
+        else
         {
-            var movie = await _context.Movies.FindAsync(command.Id);
-
-            if (movie is null)
+            return new MovieDTO
             {
-                return null;
-            }
-            else
-            {
-                return new MovieDTO
-                {
-                    Id = movie.Id,
-                    Title = movie.Title,
-                    Year = movie.Year,
-                    Synopsis = movie.Synopsis,
-                    Director = movie.Director,
-                    Actors = movie.Actors,
-                    Genres = movie.Genres
-                };
-            }
+                Id = movie.Id,
+                Title = movie.Title,
+                Year = movie.Year,
+                Synopsis = movie.Synopsis,
+                Director = movie.Director,
+                Actors = movie.Actors,
+                Genres = movie.Genres
+            };
         }
     }
 }
