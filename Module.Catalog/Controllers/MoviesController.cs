@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Module.Catalog.Core.Entities;
 using Module.Catalog.Core.Features.Commands;
 using Module.Catalog.Core.Features.Queries;
