@@ -1,0 +1,29 @@
+﻿<!--This project is where you will have your middlewares, utilities and specify which Database Provider to use for the entire application.-->
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="MediatR" Version="10.0.1" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.4" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Shared.Core\Shared.Core.csproj" />
+	</ItemGroup>
+
+</Project>
