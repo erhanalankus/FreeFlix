@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Module.Catalog.Core.Entities;
+using Module.Catalog.Core.Entities.DTO;
 using Module.Catalog.Core.Features.Queries;
 using Moq;
 using System.Threading;
@@ -17,7 +17,7 @@ public class GetByIdActionShould
         var mockMediator = new Mock<IMediator>();
         mockMediator
             .Setup(m => m.Send(It.IsAny<GetMovieByIdQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Movie)null);
+            .ReturnsAsync((MovieDTO)null);
         var moviesController = new Controllers.MoviesController(mockMediator.Object);
 
         // Act
@@ -34,7 +34,7 @@ public class GetByIdActionShould
         var mockMediator = new Mock<IMediator>();
         mockMediator
             .Setup(m => m.Send(It.IsAny<GetMovieByIdQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new Movie());
+            .ReturnsAsync(new MovieDTO());
         var moviesController = new Controllers.MoviesController(mockMediator.Object);
 
         // Act

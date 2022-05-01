@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Module.Catalog.Core.Entities;
 using Module.Catalog.Core.Entities.DTO;
 using Module.Catalog.Core.Features.Commands;
 using Module.Catalog.Core.Features.Queries;
@@ -47,7 +46,7 @@ namespace Module.Catalog.Controllers
         }
 
         [HttpGet("{id}", Name = "GetById")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Movie))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
