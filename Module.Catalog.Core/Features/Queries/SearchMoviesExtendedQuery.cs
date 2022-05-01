@@ -112,7 +112,7 @@ namespace Module.Catalog.Core.Features.Queries
                             Director = m.Director,
                             Actors = m.Actors,
                             Genres = m.Genres
-                        }); ;
+                        });
                 result.PaginationMetadata = new PaginationMetadata(movies.Count(), command.Page, command.ItemsPerPage);
 
                 return result;
