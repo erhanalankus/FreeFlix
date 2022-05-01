@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using Module.Catalog.Core.Abstractions;
 using Module.Catalog.Core.Entities;
+using Module.Catalog.Core.Entities.DTO;
 using System.ComponentModel.DataAnnotations;
 
 namespace Module.Catalog.Core.Features.Commands;
 
-public class CreateMovieCommand : IRequest<Movie>
+public class CreateMovieCommand : IRequest<MovieDTO>
 {
     [Required]
     public string Title { get; set; }
@@ -21,7 +22,7 @@ public class CreateMovieCommand : IRequest<Movie>
     public string[] Genres { get; set; }
 }
 
-internal class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Movie>
+internal class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, MovieDTO>
 {
     private readonly ICatalogDbContext _context;
 
@@ -30,7 +31,7 @@ internal class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, M
         _context = context;
     }
 
-    public async Task<Movie> Handle(CreateMovieCommand command, CancellationToken cancellationToken)
+    public async Task<MovieDTO> Handle(CreateMovieCommand command, CancellationToken cancellationToken)
     {
         var movieToAdd = new Movie
         {
@@ -42,8 +43,17 @@ internal class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, M
             Genres = command.Genres
         };
         _context.Movies.Add(movieToAdd);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
-        return movieToAdd;
+        return new MovieDTO
+        {
+            Id = movieToAdd.Id,
+            Title = movieToAdd.Title,
+            Year = movieToAdd.Year,
+            Synopsis = movieToAdd.Synopsis,
+            Director = movieToAdd.Director,
+            Actors = movieToAdd.Actors,
+            Genres = movieToAdd.Genres
+        };
     }
 }

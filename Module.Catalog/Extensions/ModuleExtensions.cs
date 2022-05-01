@@ -3,17 +3,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Module.Catalog.Core.Extensions;
 using Module.Catalog.Infrastructure.Extensions;
 
-namespace Module.Catalog.Extensions
-{
-    public static class ModuleExtensions
-    {
-        public static IServiceCollection AddCatalogModule(this IServiceCollection services, IConfiguration configuration)
-        {
-            services
-                .AddCatalogCore()
-                .AddCatalogInfrastructure(configuration);
+namespace Module.Catalog.Extensions;
 
-            return services;
-        }
+public static class ModuleExtensions
+{
+    public static IServiceCollection AddCatalogModule(this IServiceCollection services, IConfiguration configuration)
+    {
+        services
+            .AddCatalogCore()
+            .AddCatalogInfrastructure(configuration);
+
+        return services;
     }
 }

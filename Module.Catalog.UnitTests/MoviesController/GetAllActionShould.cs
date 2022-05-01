@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Module.Catalog.Core.Entities;
+using Module.Catalog.Core.Entities.DTO;
 using Module.Catalog.Core.Features.Queries;
 using Moq;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ public class GetAllActionShould
         var mockMediator = new Mock<IMediator>();
         mockMediator
             .Setup(m => m.Send(It.IsAny<GetAllMoviesQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<Movie>());
+            .ReturnsAsync(new List<MovieDTO>());
         var moviesController = new Controllers.MoviesController(mockMediator.Object);
 
         // Act
@@ -33,9 +33,9 @@ public class GetAllActionShould
     public async void ReturnOkObjectResultIfThereAreMovies()
     {
         // Arrange
-        var movies = new List<Movie>
+        var movies = new List<MovieDTO>
         {
-            new Movie
+            new MovieDTO
             {
                 Id = 1,
                 Title = "Fight Club",
@@ -53,7 +53,7 @@ public class GetAllActionShould
                     "Drama"
                 }
             },
-            new Movie
+            new MovieDTO
             {
                 Id = 2,
                 Title = "Inglourious Basterds",

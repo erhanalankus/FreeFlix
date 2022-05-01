@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Module.Catalog.Core.Entities;
+using Module.Catalog.Core.Entities.DTO;
 using Module.Catalog.Core.Features.Commands;
 using Moq;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ public class CreateActionShould
     public async void ReturnCreatedAtActionResultIfTheMovieIsCreated()
     {
         // Arrange
-        var movie = new Movie
+        var movie = new MovieDTO
         {
             Id = 1,
             Title = "Fight Club",
