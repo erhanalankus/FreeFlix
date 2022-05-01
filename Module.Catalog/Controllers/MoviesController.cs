@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Module.Catalog.Core.Entities;
+using Module.Catalog.Core.Entities.DTO;
 using Module.Catalog.Core.Features.Commands;
 using Module.Catalog.Core.Features.Queries;
 using System.Net.Mime;
@@ -30,7 +31,7 @@ namespace Module.Catalog.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Movie>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<MovieDTO>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> GetAllAsync()
