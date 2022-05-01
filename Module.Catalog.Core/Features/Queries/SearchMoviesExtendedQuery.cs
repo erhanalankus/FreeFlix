@@ -2,11 +2,23 @@
 using Microsoft.EntityFrameworkCore;
 using Module.Catalog.Core.Abstractions;
 using Module.Catalog.Core.Entities;
+using Module.Catalog.Core.Entities.DTO;
 
 namespace Module.Catalog.Core.Features.Queries
 {
-    public class SearchMoviesExtendedQuery : IRequest<IEnumerable<Movie>>
+    public class SearchMoviesExtendedQuery : IRequest<PaginatedMoviesDTO>
     {
+        private const int _maxItemsPerPage = 5;
+        private int itemsPerPage = 3;
+
+        public int Page { get; set; } = 1;
+
+        public int ItemsPerPage
+        {
+            get => itemsPerPage;
+            set => itemsPerPage = value > _maxItemsPerPage ? _maxItemsPerPage : value;
+        }
+
         public string Title { get; set; }
         public string Year { get; set; }
         public string Director { get; set; }
@@ -14,7 +26,7 @@ namespace Module.Catalog.Core.Features.Queries
         public ICollection<string> Actors { get; set; } = new List<string>();
     }
 
-    internal class SearchMoviesExtendedQueryHanler : IRequestHandler<SearchMoviesExtendedQuery, IEnumerable<Movie>>
+    internal class SearchMoviesExtendedQueryHanler : IRequestHandler<SearchMoviesExtendedQuery, PaginatedMoviesDTO>
     {
         private readonly ICatalogDbContext _context;
 
@@ -23,10 +35,11 @@ namespace Module.Catalog.Core.Features.Queries
             _context = context;
         }
 
-        public async Task<IEnumerable<Movie>> Handle(SearchMoviesExtendedQuery command, CancellationToken cancellationToken)
+        public async Task<PaginatedMoviesDTO> Handle(SearchMoviesExtendedQuery command, CancellationToken cancellationToken)
         {
-            var movies = _context.Movies.AsQueryable();
+            var movies = _context.Movies.OrderBy(m => m.Id).AsQueryable();
             var moviesList = new List<Movie>();
+            var result = new PaginatedMoviesDTO();
 
             if (!string.IsNullOrWhiteSpace(command.Title))
             {
@@ -75,10 +88,41 @@ namespace Module.Catalog.Core.Features.Queries
                     }
                 }
 
-                return moviesList;
+                result.Movies = moviesList
+                    .Skip((command.Page - 1) * command.ItemsPerPage)
+                    .Take(command.ItemsPerPage)
+                    .Select(m => new MovieDTO
+                        {
+                            Id = m.Id,
+                            Title = m.Title,
+                            Year = m.Year,
+                            Synopsis = m.Synopsis,
+                            Director = m.Director,
+                            Actors = m.Actors,
+                            Genres = m.Genres
+                        }); ;
+                result.PaginationMetadata = new PaginationMetadata(movies.Count(), command.Page, command.ItemsPerPage);
+
+                return result;
             }
 
-            return await movies.ToListAsync();
+            moviesList = await movies
+                .Skip((command.Page - 1) * command.ItemsPerPage)
+                .Take(command.ItemsPerPage)
+                .ToListAsync();
+            result.PaginationMetadata = new PaginationMetadata(movies.Count(), command.Page, command.ItemsPerPage);
+            result.Movies = moviesList.Select(m => new MovieDTO
+            {
+                Id = m.Id,
+                Title = m.Title,
+                Year = m.Year,
+                Synopsis = m.Synopsis,
+                Director = m.Director,
+                Actors = m.Actors,
+                Genres = m.Genres
+            });
+
+            return result;
         }
     }
 }
